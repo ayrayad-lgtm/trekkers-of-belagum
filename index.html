@@ -269,12 +269,12 @@ h2{margin-bottom:18px}
   <span class="mono">Summit</span><h2>Let’s make something outdoors</h2>
   <p style="color:var(--mute);max-width:470px">Brand partnerships, creator collabs, community events and custom treks.</p>
   <div class="btns"><a class="btn p" href="#quote">Get a quote</a><a class="btn o" href="https://www.instagram.com/gems_111_/" target="_blank" rel="noopener">DM @gems_111_</a><a class="btn o" href="https://www.instagram.com/trekkers_of_belgaum/" target="_blank" rel="noopener">@trekkers_of_belgaum</a></div>
-  <form class="qf" id="quote" onsubmit="return sendQuote(event)"><h3>Get a quote</h3><p class="sub">Fill in a few details and your email app opens with the message ready. Just press Send.</p>
+  <form class="qf" id="quote" onsubmit="return sendQuote(event)"><h3>Get a quote</h3><p class="sub">Fill in a few details and press send. Your request goes straight to Prachi, no email app needed.</p>
 <div class="qg"><div><label for="qn">Your name</label><input id="qn" required autocomplete="name"></div><div><label for="qc">Phone or email (optional)</label><input id="qc"></div>
 <div><label for="qt">I’m looking for</label><select id="qt"><option>A custom trek</option><option>A brand collaboration</option><option>A community event</option><option>Something else</option></select></div><div><label for="qg">Group size</label><input id="qg" inputmode="numeric" placeholder="e.g. 25"></div>
 <div class="full"><label for="qd">Preferred destination and dates</label><input id="qd" placeholder="e.g. Kedarkantha, December"></div>
 <div class="full"><label for="qm">Anything else</label><textarea id="qm"></textarea></div></div>
-<button class="btn p" type="submit">Send quote request</button><div id="qmsg"></div></form>
+<input type="text" id="qh" name="_honey" tabindex="-1" autocomplete="off" style="display:none"><button class="btn p" type="submit" id="qsb">Send quote request</button><div id="qmsg"></div></form>
 <p><a class="l" href="mailto:prachishivangekar@gmail.com">prachishivangekar@gmail.com</a> · <a class="l" href="tel:+919481754811">+91 94817 54811</a></p>
 </div></footer>
 
@@ -308,10 +308,19 @@ let drag=false;function setFrom(e){const r=tbt.getBoundingClientRect(),p=Math.ma
 tbt.addEventListener("pointerdown",e=>{drag=true;tbt.setPointerCapture(e.pointerId);reel.style.scrollSnapType="none";setFrom(e)});
 tbt.addEventListener("pointermove",e=>{if(drag)setFrom(e)});
 const end=()=>{if(drag){drag=false;reel.style.scrollSnapType=""}};tbt.addEventListener("pointerup",end);tbt.addEventListener("pointercancel",end);})();
-function sendQuote(e){e.preventDefault();const v=i=>document.getElementById(i).value.trim(),t=v("qt"),sub="Quote request: "+t,body=`Hi Prachi,\n\nI’d like a quote for: ${t}\n\nName: ${v("qn")}\nContact: ${v("qc")||"-"}\nGroup size: ${v("qg")||"-"}\nDestination / dates: ${v("qd")||"-"}\n\nDetails:\n${v("qm")||"-"}\n\nThanks!`;
-const url="mailto:prachishivangekar@gmail.com?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(body),a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
-const m=document.getElementById("qmsg");m.style.display="block";m.innerHTML="Your email app should open with the message ready. If nothing happened, <button type='button' id='qcp'>copy the message</button> and send it to prachishivangekar@gmail.com.";
-document.getElementById("qcp").onclick=()=>{try{navigator.clipboard.writeText(sub+"\n\n"+body);document.getElementById("qcp").textContent="copied"}catch(x){}};return false}
+function sendQuote(e){e.preventDefault();
+const v=i=>document.getElementById(i).value.trim(),t=v("qt"),sub="Quote request: "+t,
+body=`Hi Prachi,\n\nI’d like a quote for: ${t}\n\nName: ${v("qn")}\nContact: ${v("qc")||"-"}\nGroup size: ${v("qg")||"-"}\nDestination / dates: ${v("qd")||"-"}\n\nDetails:\n${v("qm")||"-"}\n\nThanks!`;
+const m=document.getElementById("qmsg"),btn=document.getElementById("qsb");
+if(v("qh"))return false; // spam trap
+m.style.display="block";m.textContent="Sending…";btn.disabled=true;btn.textContent="Sending…";
+const fallback=()=>{m.innerHTML="Sorry, it didn’t go through. <a class='l' href='mailto:prachishivangekar@gmail.com?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(body)+"'>Email directly</a> or <button type='button' id='qcp'>copy the message</button>.";
+document.getElementById("qcp").onclick=()=>{try{navigator.clipboard.writeText(sub+"\n\n"+body);document.getElementById("qcp").textContent="copied"}catch(x){}};btn.disabled=false;btn.textContent="Send quote request"};
+fetch("https://formsubmit.co/ajax/prachishivangekar@gmail.com",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
+body:JSON.stringify({_subject:sub,_template:"table",_captcha:"false",Name:v("qn"),Contact:v("qc")||"-",Looking_for:t,Group_size:v("qg")||"-",Destination_dates:v("qd")||"-",Details:v("qm")||"-",message:body})})
+.then(r=>r.json().then(d=>{if(r.ok&&String(d.success)==="true"){m.textContent="Thanks "+v("qn")+"! Your request has been sent. Prachi will get back to you soon.";document.getElementById("quote").reset();btn.disabled=false;btn.textContent="Send quote request"}else fallback()}))
+.catch(fallback);
+return false}
 // reveal + counters
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");e.target.querySelectorAll("[data-n]").forEach(count);io.unobserve(e.target)}}),{threshold:.2});
 document.querySelectorAll(".reveal").forEach(e=>io.observe(e));
