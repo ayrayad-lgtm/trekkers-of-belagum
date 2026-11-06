@@ -135,6 +135,47 @@ body{overflow-x:hidden}
 .vid .ph.has i{top:auto;bottom:12px;left:auto;right:12px;width:46px;height:46px;transform:none;background:rgba(255,255,255,.92);color:var(--acc)}
 .vid:hover .ph.has i{transform:scale(1.12);background:var(--acc);color:#fff}
 .vid .ph.has .tag{background:rgba(255,255,255,.88);color:#1b2430}
+nav div::-webkit-scrollbar{display:none}nav div{scrollbar-width:none}
+@media (max-width:720px){
+body{font-size:15px}
+nav .wrap{height:52px}nav div{gap:16px;font-size:13px;margin-left:12px}nav a{padding:8px 2px}
+.wrap{padding:0 18px}
+.hero{padding:24px 0 215px;gap:18px}
+.hero h1{font-size:clamp(40px,13vw,56px)}
+.hero p{font-size:16px}
+.mono{font-size:11px;letter-spacing:.08em;line-height:1.5}
+.compass{max-width:150px}
+.btn{padding:11px 18px}
+section{padding-top:52px}
+h2{margin-bottom:18px}
+.panel{padding:18px;border-radius:16px;backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(255,255,255,.86)}
+.camp{backdrop-filter:none;background:rgba(255,255,255,.86);padding:14px}
+.camp span.b{font-size:14px}
+.big{font-size:38px}
+.tl{padding-left:44px}.it::before{left:-38px}.it h3{font-size:19px}
+.donut{margin:0 auto}
+.trek{gap:14px}
+.chip{font-size:13px;padding:5px 12px}
+.badges{grid-template-columns:1fr 1fr;gap:10px}
+.badge{padding:16px 10px}.badge i{width:48px;height:48px;font-size:12px;margin-bottom:8px}.badge b{font-size:14px;line-height:1.3}.badge span{font-size:12px}
+.vid{flex-basis:72%}
+.tbc{min-width:40px;font-size:11px}
+.cta{margin-top:120px;padding:56px 0 48px}
+.glow use{animation:none}
+}
+.qf{margin:30px 0 10px;padding:24px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.05);max-width:640px}
+.qf h3{font-size:22px;margin:0 0 4px}.qf p.sub{margin:0 0 16px;color:var(--mute);font-size:14px}
+.qg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qg .full{grid-column:1/-1}
+.qf label{display:block;font:500 11px 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:5px}
+.qf input,.qf select,.qf textarea{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--ink);font:400 15px 'Space Grotesk',sans-serif}
+.qf select option{color:#1b2430}
+.qf input:focus,.qf select:focus,.qf textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.qf textarea{min-height:90px;resize:vertical}
+.qf button.btn{cursor:pointer;font-family:inherit;margin-top:16px}
+#qmsg{font-size:13px;color:var(--mute);margin-top:12px;display:none}
+#qmsg button{background:none;border:0;color:var(--acc);font:inherit;text-decoration:underline;cursor:pointer;padding:0}
+@media (max-width:560px){.qg{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -227,8 +268,14 @@ body{overflow-x:hidden}
 <footer class="cta" id="contact"><svg class="ridge" viewBox="0 0 1600 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 80 L0 50 L180 30 L300 55 L470 8 L560 40 L700 25 L860 60 L1020 14 L1130 45 L1300 20 L1440 55 L1600 35 L1600 80Z"/></svg><div class="wrap">
   <span class="mono">Summit</span><h2>Let’s make something outdoors</h2>
   <p style="color:var(--mute);max-width:470px">Brand partnerships, creator collabs, community events and custom treks.</p>
-  <div class="btns"><a class="btn p" href="https://www.instagram.com/gems_111_/" target="_blank" rel="noopener">DM @gems_111_</a><a class="btn o" href="https://www.instagram.com/trekkers_of_belgaum/" target="_blank" rel="noopener">@trekkers_of_belgaum</a></div>
-  <p><a class="l" href="mailto:prachishivangekar@gmail.com">prachishivangekar@gmail.com</a> · <a class="l" href="tel:+919481754811">+91 94817 54811</a></p>
+  <div class="btns"><a class="btn p" href="#quote">Get a quote</a><a class="btn o" href="https://www.instagram.com/gems_111_/" target="_blank" rel="noopener">DM @gems_111_</a><a class="btn o" href="https://www.instagram.com/trekkers_of_belgaum/" target="_blank" rel="noopener">@trekkers_of_belgaum</a></div>
+  <form class="qf" id="quote" onsubmit="return sendQuote(event)"><h3>Get a quote</h3><p class="sub">Fill in a few details and your email app opens with the message ready. Just press Send.</p>
+<div class="qg"><div><label for="qn">Your name</label><input id="qn" required autocomplete="name"></div><div><label for="qc">Phone or email (optional)</label><input id="qc"></div>
+<div><label for="qt">I’m looking for</label><select id="qt"><option>A custom trek</option><option>A brand collaboration</option><option>A community event</option><option>Something else</option></select></div><div><label for="qg">Group size</label><input id="qg" inputmode="numeric" placeholder="e.g. 25"></div>
+<div class="full"><label for="qd">Preferred destination and dates</label><input id="qd" placeholder="e.g. Kedarkantha, December"></div>
+<div class="full"><label for="qm">Anything else</label><textarea id="qm"></textarea></div></div>
+<button class="btn p" type="submit">Send quote request</button><div id="qmsg"></div></form>
+<p><a class="l" href="mailto:prachishivangekar@gmail.com">prachishivangekar@gmail.com</a> · <a class="l" href="tel:+919481754811">+91 94817 54811</a></p>
 </div></footer>
 
 <script>
@@ -261,6 +308,10 @@ let drag=false;function setFrom(e){const r=tbt.getBoundingClientRect(),p=Math.ma
 tbt.addEventListener("pointerdown",e=>{drag=true;tbt.setPointerCapture(e.pointerId);reel.style.scrollSnapType="none";setFrom(e)});
 tbt.addEventListener("pointermove",e=>{if(drag)setFrom(e)});
 const end=()=>{if(drag){drag=false;reel.style.scrollSnapType=""}};tbt.addEventListener("pointerup",end);tbt.addEventListener("pointercancel",end);})();
+function sendQuote(e){e.preventDefault();const v=i=>document.getElementById(i).value.trim(),t=v("qt"),sub="Quote request: "+t,body=`Hi Prachi,\n\nI’d like a quote for: ${t}\n\nName: ${v("qn")}\nContact: ${v("qc")||"-"}\nGroup size: ${v("qg")||"-"}\nDestination / dates: ${v("qd")||"-"}\n\nDetails:\n${v("qm")||"-"}\n\nThanks!`;
+const url="mailto:prachishivangekar@gmail.com?subject="+encodeURIComponent(sub)+"&body="+encodeURIComponent(body),a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+const m=document.getElementById("qmsg");m.style.display="block";m.innerHTML="Your email app should open with the message ready. If nothing happened, <button type='button' id='qcp'>copy the message</button> and send it to prachishivangekar@gmail.com.";
+document.getElementById("qcp").onclick=()=>{try{navigator.clipboard.writeText(sub+"\n\n"+body);document.getElementById("qcp").textContent="copied"}catch(x){}};return false}
 // reveal + counters
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");e.target.querySelectorAll("[data-n]").forEach(count);io.unobserve(e.target)}}),{threshold:.2});
 document.querySelectorAll(".reveal").forEach(e=>io.observe(e));
@@ -272,9 +323,9 @@ function meter(){const h=document.documentElement.scrollHeight-innerHeight,p=h>0
 addEventListener("scroll",()=>{prog();meter()},{passive:true});prog();meter();
 // smooth headlamp reveal + compass
 if(!matchMedia("(prefers-reduced-motion:reduce)").matches){
- let mx=innerWidth*.5,my=innerHeight*.35,x=mx,y=my,ang=0,moved=false;const g=$("#glow"),nd=$("#needle"),cp=$(".compass");
+ let mx=innerWidth*.5,my=innerHeight*.35,x=mx,y=my,ang=0,moved=false,fine=matchMedia("(hover:hover)").matches;const g=$("#glow"),nd=$("#needle"),cp=$(".compass");
  addEventListener("pointermove",e=>{moved=true;mx=e.clientX;my=e.clientY});
- (function loop(ts){if(!moved&&ts){mx=innerWidth*(.5+.3*Math.sin(ts/4200));my=innerHeight*(.35+.2*Math.cos(ts/5600))}x+=(mx-x)*.09;y+=(my-y)*.09;const px=(x-innerWidth/2)/innerWidth;$("#k1").style.transform=`translateX(${px*-14}px)`;$("#k2").style.transform=`translateX(${px*-30}px)`;$("#k3").style.transform=`translateX(${px*-52}px)`;g.style.setProperty("--x",x+"px");g.style.setProperty("--y",y+"px");
+ (function loop(ts){if(!moved&&ts&&fine){mx=innerWidth*(.5+.3*Math.sin(ts/4200));my=innerHeight*(.35+.2*Math.cos(ts/5600))}x+=(mx-x)*.09;y+=(my-y)*.09;const px=(x-innerWidth/2)/innerWidth;$("#k1").style.transform=`translateX(${px*-14}px)`;$("#k2").style.transform=`translateX(${px*-30}px)`;$("#k3").style.transform=`translateX(${px*-52}px)`;g.style.setProperty("--x",x+"px");g.style.setProperty("--y",y+"px");
   const r=cp.getBoundingClientRect(),t=Math.atan2(y-(r.top+r.height/2),x-(r.left+r.width/2))*180/Math.PI+90;let dl=((t-ang+540)%360)-180;ang+=dl*.08;nd.setAttribute("transform",`rotate(${ang} 100 100)`);requestAnimationFrame(loop)})();
 }
 </script>
